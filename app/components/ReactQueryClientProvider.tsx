@@ -6,7 +6,6 @@ import { registerDevice } from "../apis/apis";
 import { GlobalContext } from "../context";
 import { localStorageKeys } from "../utils/enum";
 import { getLocalItem, setLocalItem } from "../utils/localstorage";
-import ErrorBoundary from "./errorBoundary";
 export interface IRegisterDevice {
   mode: string;
   identifier: string;
@@ -37,13 +36,11 @@ const ReactQueryClientProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const contextValue = useMemo(() => ({ data, setData }), [data, setData]);
   return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <GlobalContext.Provider value={contextValue}>
-          {children}
-        </GlobalContext.Provider>
-      </QueryClientProvider>
-    </ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <GlobalContext.Provider value={contextValue}>
+        {children}
+      </GlobalContext.Provider>
+    </QueryClientProvider>
   );
 };
 

@@ -1,5 +1,6 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { Socket } from "socket.io-client";
+import { ChatMessage } from "../components/ClientLayoutWrapper";
 interface IGlobalContext {
   [key: string]: any;
 }
@@ -9,21 +10,13 @@ export const GlobalContext = createContext<{
   setData: Dispatch<SetStateAction<IGlobalContext>>;
 }>({
   data: {},
-  setData: () => {},
+  setData: () => { },
 });
 
 
 const AppContext = createContext<{
   socket: Socket | null;
-  messages: {
-    [key: string]: {
-      message: string;
-      id: string;
-      createdAt: string;
-      type: string;
-      targetUserId?: string;
-    }[];
-  };
+  messages: Record<string, ChatMessage[]>;
   user: { id: string; createdAt: string; type: string; name: string }[] | null;
 }>({
   socket: null,

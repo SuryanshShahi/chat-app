@@ -10,11 +10,7 @@ const useHook = () => {
   const { socket } = useContext(AppContext);
   const [isAddGuestModalOpen, setIsAddGuestModalOpen] = useState(false);
   const [isOnline, setIsOnline] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<{
-    id: string;
-    name: string;
-    status?: string;
-  } | null>(null);
+  const [selectedUser, setSelectedUser] = useState<IContact | null>(null);
   const { userInfo } = useSharedVariables();
   const { data: contacts, refetch } = useQuery<{ results: IContact[] }>({
     queryKey: ["contacts"],
@@ -36,7 +32,7 @@ const useHook = () => {
     initialValues: {
       name: "",
       phone: "",
-      email: "",
+      email: undefined,
     },
     onSubmit: (values) => {
       addContactFn(values);
@@ -56,16 +52,17 @@ const useHook = () => {
   );
   useEffect(() => {
     if (!selectedUser) return;
-    socket?.emit("check-online", selectedUser?.id, (isOnline: boolean) => {
+    socket?.emit("check-online", selectedUser?.userId, (isOnline: boolean) => {
       setIsOnline(isOnline);
     });
-  }, [selectedUser]);
+  }, [selectedUser, socket]);
   return {
     contacts: [
       {
         id: userInfo?.userId ?? "",
         name: userInfo?.name || userInfo?.phone || "asd",
         phone: userInfo?.phone,
+        userId: userInfo?.userId ?? "",
       },
       ...(contacts?.results || []),
     ],

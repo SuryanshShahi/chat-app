@@ -19,11 +19,12 @@ export interface IVerifyOtp {
 export interface IAddContact {
   name: string;
   phone: string;
-  email: string;
+  email?: string;
 }
 
 export interface IContact {
   id: string;
+  userId?: string;
   name: string;
   phone: string;
   email?: string;

@@ -6,41 +6,50 @@ import useSocket from "../utils/hooks/useSocket";
 interface ClientLayoutWrapperProps {
   children: React.ReactNode;
 }
-
+export type ChatMessage = {
+  message: string;
+  createdAt: string;
+  type: "private_message" | "message" | "user_joined";
+  senderUserId?: string;
+  targetUserId?: string;
+  userId?: string; // for broadcast/user_joined payloads
+  name?: string;
+};
 export default function ClientLayoutWrapper({
   children,
 }: ClientLayoutWrapperProps) {
   const socket = useSocket();
 
-  const [messages, setMessages] = useState<{
-    [key: string]: {
-      message: string;
-      id: string;
-      createdAt: string;
-      type: string;
-      targetUserId?: string;
-    }[];
-  }>({});
+  const [messages, setMessages] = useState<Record<string, ChatMessage[]>>({});
   const [user, setUser] = useState<
     { id: string; name: string; createdAt: string; type: string }[] | null
   >(null);
 
-  const onMessageReceived = useCallback((data: any) => {
+  const onMessageReceived = useCallback((payload: any) => {
+    const data = typeof payload === "string" ? JSON.parse(payload) : payload;
+    console.log("🚀 ~ ClientLayoutWrapper ~ data:", data)
+
     if (data.type === "private_message") {
-      let conversationKey;
-      if (data.targetUserId) {
-        const ids = [data.id, data.targetUserId].sort();
-        conversationKey = `${ids[0]}-${ids[1]}`;
-        console.log("🚀 ~ ClientLayoutWrapper ~ received data:", conversationKey);
-      } else {
-        conversationKey = data.id;
-      }
+      const ids = [data.senderUserId, data.targetUserId].sort();
+      const conversationKey = `${ids[0]}-${ids[1]}`;
 
       setMessages((prev) => ({
         ...prev,
         [conversationKey]: [...(prev[conversationKey] || []), data],
       }));
-    } else if (data.type === "user_joined") {
+      return;
+    }
+
+    if (data.type === "message") {
+      const conversationKey = data.userId; // public/global stream bucket
+      setMessages((prev) => ({
+        ...prev,
+        [conversationKey]: [...(prev[conversationKey] || []), data],
+      }));
+      return;
+    }
+
+    if (data.type === "user_joined") {
       setUser((prev) => [...(prev || []), data]);
     }
   }, []);
