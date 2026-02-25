@@ -10,7 +10,7 @@ const InputField = ({
   return (
     <input
       className={clsx(
-        "text-white bg-neutral-700 px-4 py-2 rounded-md outline-none",
+        "h-11 w-full rounded-xl border border-[#2a3942] bg-[#202c33] px-4 text-sm text-[#e9edef] outline-none transition-all placeholder:text-[#8696a0] focus:border-emerald-400/70 focus:ring-2 focus:ring-emerald-500/30 disabled:cursor-not-allowed disabled:opacity-60",
         className
       )}
       {...rest}

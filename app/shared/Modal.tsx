@@ -22,7 +22,7 @@ export const Modal: FC<PropsWithChildren<IModal>> = ({
     <Dialog open={isOpen} onClose={close} className="relative z-50">
       <DialogBackdrop
         transition
-        className="fixed inset-0 bg-black/50 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+        className="fixed inset-0 bg-[#0b141a]/80 backdrop-blur-sm transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
       />
 
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -35,7 +35,7 @@ export const Modal: FC<PropsWithChildren<IModal>> = ({
           <DialogPanel
             transition
             className={clsx(
-              "mx-5 relative overflow-hidden sm:rounded-lg rounded-3xl flex flex-col sm:max-h-[calc(100vh-100px)] max-h-[calc(100vh-50px)] bg-neutral-800 text-left shadow-xl sm:my-8 w-full",
+              "mx-5 relative flex w-full flex-col overflow-hidden rounded-3xl border border-[#2a3942] bg-[#111b21] text-left shadow-2xl shadow-black/40 sm:my-8 sm:max-h-[calc(100vh-100px)] sm:rounded-2xl max-h-[calc(100vh-50px)]",
               {
                 "sm:max-w-[640px]": size === "lg",
                 "sm:max-w-[545px]": size === "md",

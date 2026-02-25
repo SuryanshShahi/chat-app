@@ -12,7 +12,9 @@ const useHook = () => {
   const [isOnline, setIsOnline] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IContact | null>(null);
   const { userInfo } = useSharedVariables();
-  const { data: contacts, refetch } = useQuery<{ results: IContact[] }>({
+  const { data: contacts, refetch, isLoading: isContactsLoading } = useQuery<{
+    results: IContact[];
+  }>({
     queryKey: ["contacts"],
     queryFn: getContacts,
     enabled: !!userInfo?.userId,
@@ -77,6 +79,7 @@ const useHook = () => {
     selectedUser,
     setSelectedUser,
     isOnline,
+    isContactsLoading,
   };
 };
 

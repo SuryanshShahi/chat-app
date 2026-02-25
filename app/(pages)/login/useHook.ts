@@ -28,7 +28,7 @@ const useHook = () => {
     }
   };
 
-  const { mutate: sendOtp } = useMutation({
+  const { mutate: sendOtp, isPending: isSendingOtp } = useMutation({
     mutationFn: (phone: string) =>
       requestOtp({
         identifier: phone,
@@ -42,7 +42,7 @@ const useHook = () => {
       console.log(err);
     },
   });
-  const { mutate: verifyOtpMutation } = useMutation({
+  const { mutate: verifyOtpMutation, isPending: isVerifyingOtp } = useMutation({
     mutationFn: (otp: string) =>
       verifyOtp({
         otp,
@@ -66,6 +66,8 @@ const useHook = () => {
     details,
     handleChange,
     handleSubmit,
+    isSendingOtp,
+    isVerifyingOtp,
   };
 };
 
