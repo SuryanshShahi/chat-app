@@ -4,7 +4,7 @@ import { IAddContact, IContact } from "../../apis/types";
 import { useFormik } from "formik";
 import useSharedVariables from "../../utils/hooks/useSharedVariables";
 import { useContext, useEffect, useState } from "react";
-import AppContext, { GlobalContext } from "@/app/context";
+import AppContext from "@/app/context";
 // import useSocket from "@/app/utils/hooks/useSocket";
 const useHook = () => {
   const { socket } = useContext(AppContext);

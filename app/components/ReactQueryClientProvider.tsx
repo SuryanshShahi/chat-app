@@ -13,7 +13,7 @@ export interface IRegisterDevice {
 }
 const queryClient = new QueryClient();
 const ReactQueryClientProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [data, setData] = useState<{ [key: string]: any }>({});
+  const [data, setData] = useState<Record<string, unknown>>({});
   const register = async () => {
     const id = getLocalItem(localStorageKeys.REGISTERED_DEVICE_ID);
     if (!id) {

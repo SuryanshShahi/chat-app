@@ -2,7 +2,7 @@ import { createContext, Dispatch, SetStateAction } from "react";
 import { Socket } from "socket.io-client";
 import { ChatMessage } from "../components/ClientLayoutWrapper";
 interface IGlobalContext {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export const GlobalContext = createContext<{
@@ -10,7 +10,7 @@ export const GlobalContext = createContext<{
   setData: Dispatch<SetStateAction<IGlobalContext>>;
 }>({
   data: {},
-  setData: () => { },
+  setData: () => {},
 });
 
 
